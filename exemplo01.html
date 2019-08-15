@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Semana 2 Exemplo 1</title>
+</head>
+<body>
+    <h1>Semana 2 Exemplo 1</h1>
+    <canvas />
+    <script>
+    var canvas = document.querySelector("canvas");
+    canvas.width = 400;
+    canvas.height = 300;
+    
+    function teclapressionada(e){
+        console.log(e.keyCode);
+        if(e.keyCode == 39){
+            pcvx = 160;
+        }
+        if(e.keyCode == 37){
+            pcvx = -160;
+        }
+        if(e.keyCode == 40){
+            pcvy = 160;
+        }
+        if(e.keyCode == 38){
+            pcvy = -160;
+        }
+    }
+    function teclasolta(e){
+        console.log(e.keyCode);
+        if(e.keyCode == 39){
+            pcvx = 0;
+        }
+        if(e.keyCode == 37){
+            pcvx = 0;
+        }
+        if(e.keyCode == 40){
+            pcvy = 0;
+        }
+        if(e.keyCode == 38){
+            pcvy = 0;
+        }
+    }
+    function desenhachao(){
+     ctx.fillStyle = "tan";
+     ctx.fillRect(0,0, canvas.width,canvas.height);
+    }
+
+    function desenhaportal(){
+      ctx.fillStyle = "green";
+      ctx.fillRect(0,72, 10,36);
+      ctx.fillRect(390,72, 10,36);
+      ctx.strokeStyle = "lightgreen";
+      ctx.strokeRect(0,72, 10,36);
+      ctx.strokeRect(390,72, 10,36);
+    }
+
+    function player(x,y){
+     ctx.fillStyle = "darkred";
+     ctx.fillRect(x,y,pcw,pcw);
+     ctx.strokeStyle = "black";
+     ctx.strokeRect(x,y,pcw,pcw);
+    }
+
+    function enemy(x,y){
+     ctx.fillStyle = "lightblue";
+     ctx.fillRect(x,y,ecw,ecw);
+     ctx.strokeStyle = "lightgreen";
+     ctx.strokeRect(x,y,ecw,ecw);
+    }
+
+
+    function frame(t){
+        dt = (t - anterior)/1000;
+        desenhachao();
+        ctx.fillStyle = "black";
+        ctx.fillText(t, 10,10);
+        ctx.fillText(dt,10,10);
+        
+        pcx = pcx + pcvx*dt;
+        pcy = pcy + pcvy*dt;
+        player(pcx,pcy);
+        anterior = t;
+        desenhaportal();
+        if(pcx >= canvas.width){
+          pcx = 0 - pcw
+        }
+        else if(pcx <= 0 - pcw){
+          pcx = canvas.width;
+        }
+        requestAnimationFrame(frame);
+    }
+
+    //Main:
+    var dt = 0;
+    var anterior = 0;
+    var pcw = 30;
+    var pcvx = 50;
+    var pcvy = 0;
+    var ecw = 40;
+
+    var ctx = canvas.getContext("2d");
+
+    addEventListener("keydown",teclapressionada);
+    addEventListener("keyup",teclasolta);
+    var pcx = 100;
+    var pcy = 75;
+    requestAnimationFrame(frame);
+
+    </script>
+</body>
+</html>
