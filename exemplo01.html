@@ -13,19 +13,40 @@
     var canvas = document.querySelector("canvas");
     canvas.width = 400;
     canvas.height = 300;
+    var ctx = canvas.getContext("2d");
+    
     var dt = 0;
     var anterior = 0;
-    
+
     var pc = {};
     pc.x = 100;
     pc.y = 75;
-    pc.vx = 50;
-    pc.vy = 0;
     pc.w = 30;
+    pc.vx = 400;
+    pc.vy = 300;
+    pc.mover = function(dt){
+        this.x = this.x + this.vx*dt;
+        this.y = this.y + this.vy*dt;
+    }
+    pc.desenhar = desenhaPC;
 
-    var ecw = 40;
-                
-    var ctx = canvas.getContext("2d");
+    var pc2 = {
+        x : 50,
+        y : 200,
+        w : 50,
+        vx : 0,
+        vy : 0,
+        desenhar : desenhaEN,
+        mover : function(dt){
+          this.x = this.x + this.vx*dt;
+          this.y = this.y + this.vy*dt;
+        },
+        perseguir : function(alvo){
+          this.vx =  100*Math.sign(alvo.x - this.x);
+          this.vy =  100*Math.sign(alvo.y - this.y);
+        },
+    }
+
     
     function teclapressionada(e){
         console.log(e.keyCode);
@@ -57,6 +78,20 @@
             pc.vy = 0;
         }
     }
+
+    function desenhaPC(ctx){
+       ctx.fillStyle = "darkred";
+       ctx.fillRect(this.x,this.y,this.w,this.w);
+       ctx.strokeStyle = "black";
+       ctx.strokeRect(this.x,this.y,this.w,this.w);
+    }
+    function desenhaEN(ctx){
+       ctx.fillStyle = "lightblue";
+       ctx.fillRect(this.x,this.y,this.w,this.w);
+       ctx.strokeStyle = "gold";
+       ctx.strokeRect(this.x,this.y,this.w,this.w);
+    }
+
     function desenhachao(){
      ctx.fillStyle = "tan";
      ctx.fillRect(0,0, canvas.width,canvas.height);
@@ -71,21 +106,6 @@
       ctx.strokeRect(390,72, 10,36);
     }
 
-    function player(x,y){
-     ctx.fillStyle = "darkred";
-     ctx.fillRect(x,y,pc.w,pc.w);
-     ctx.strokeStyle = "black";
-     ctx.strokeRect(x,y,pc.w,pc.w);
-    }
-
-    function enemy(x,y){
-     ctx.fillStyle = "lightblue";
-     ctx.fillRect(x,y,ecw,ecw);
-     ctx.strokeStyle = "lightgreen";
-     ctx.strokeRect(x,y,ecw,ecw);
-    }
-
-
     function frame(t){
         dt = (t - anterior)/1000;
         desenhachao();
@@ -93,16 +113,28 @@
         ctx.fillText(t, 10,10);
         ctx.fillText(dt,10,20);
         
-        pc.x = pc.x + pc.vx*dt;
-        pc.y = pc.y + pc.vy*dt;
-        player(pc.x,pc.y);
+        pc2.perseguir(pc);
+
+        pc.mover(dt);
+        pc2.mover(dt);
+
+        pc.desenhar(ctx);
+        pc2.desenhar(ctx);
+
         anterior = t;
         desenhaportal();
+
         if(pc.x >= canvas.width){
           pc.x = 0 - pc.w
         }
         else if(pc.x <= 0 - pc.w){
           pc.x = canvas.width;
+        }
+        if(pc2.x >= canvas.width){
+          pc2.x = 0 - pc2.w
+        }
+        else if(pc2.x <= 0 - pc2.w){
+          pc2.x = canvas.width;
         }
         requestAnimationFrame(frame);
     }
