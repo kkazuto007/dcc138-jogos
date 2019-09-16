@@ -140,25 +140,25 @@ Scene.prototype.verdados = function (){
     ctx.font = "30px bold Aldrich";
     ctx.fillText("Life:",10,30);
     ctx.strokeText("Life:",10,30);
-    ctx.fillText(vidaabsoluta, 80,30);
-    ctx.strokeText(vidaabsoluta, 80,30);
+    ctx.fillText(vidaabsoluta, 90,30);
+    ctx.strokeText(vidaabsoluta, 90,30);
     ctx.fillText("Score:",10,60);
     ctx.strokeText("Score:",10,60);
-    ctx.fillText(pontos, 90,60);
-    ctx.strokeText(pontos, 90,60);
+    ctx.fillText(pontos, 100,60);
+    ctx.strokeText(pontos, 100,60);
     ctx.fillText("Stage:",660,30);
     ctx.strokeText("Stage:",660,30);
-    ctx.fillText(stage,740,30)
-    ctx.strokeText(stage,740,30)
+    ctx.fillText(stage,750,30)
+    ctx.strokeText(stage,750,30)
     if(boss === 1){
         ctx.fillText("Boss: ",670,90);
         ctx.strokeText("Boss: ",670,90);
-        ctx.fillText(bosslife, 740,90);
-        ctx.strokeText(bosslife, 740,90);
+        ctx.fillText(bosslife, 750,90);
+        ctx.strokeText(bosslife, 750,90);
         ctx.fillText("Time Left: ",610,60);
         ctx.strokeText("Time Left: ",610,60);
-        ctx.fillText(bosstimer, 740,60);
-        ctx.strokeText(bosstimer, 740,60);
+        ctx.fillText(bosstimer, 750,60);
+        ctx.strokeText(bosstimer, 750,60);
     }
     if(titlecronometer>=0){
         ctx.fillStyle = "black";
@@ -236,9 +236,9 @@ Scene.prototype.stage = function (){
             }     
         }
     }
-    if(ghostcronometer<=0 && stage >= 5){
+    if(ghostcronometer<=0 && stage >= 3){
            cena1.adicionar(new Sprite({ x: canvas.width/2, y: canvas.height/2, w: 60 , h: 40, va:0, vm: 30, color: "white", props:{tipo: "ghost", spawn: 2}, vida: 50, comportar: persegueSpawn2(pc) }));
-           ghostcronometer = 60;
+           ghostcronometer = 40;
     }
 };
 
