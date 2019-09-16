@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Semana 04</title>
+  <script src="Sprite.js"></script>
+  <script src="Scene.js"></script>
+</head>
+
+<body>
+  <canvas></canvas>
+  <script>
+    var canvas = document.querySelector("canvas");
+    canvas.width = 800;
+    canvas.height = 600;
+    var ctx = canvas.getContext("2d");
+    var teclas = {
+      esquerda: 0,
+      cima: 0,
+      baixo: 0,
+      direita: 0,
+      espaço: 0,
+    }
+    var vidaabsoluta = 3000;
+    var pontos = 3000;
+    var stage = 1;
+    var boss = 0;
+    var bosslife = 200;
+    var bosstimer = 600;
+    var enemycronometer = 1;
+    var ghostcronometer = 30;
+    var titlecronometer = 6;
+    
+   
+    var cena1 = new Scene({ ctx: ctx, w: canvas.width, h: canvas.height });
+    var pc = new Sprite({ x: canvas.width/2, y: 3*canvas.height/4, h: 20, w: 20, vida: 300, comportar: porTeclasDirecionais(teclas), props:{tipo: "pc"} });
+    var moon = new Sprite({ x: 600, y: canvas.height/8, props: {tipo: "moon"}, color: "gold", vm: -20, vida: 300, comportar: moverlua()});
+    for(var k =0; k < 500; k++){
+        var tam = 4* Math.random();
+        cena1.adicionar(new Sprite({
+            y: canvas.height * Math.random(),
+            x: canvas.width,
+            h: tam,
+            w: tam,
+            vs: -200 - 300 * Math.random(),
+            color: "gold", props:{tipo:"star"}
+        }));
+    }
+    cena1.adicionar(moon);
+    cena1.adicionar(pc);
+    function persegue(alvo) {
+      return function () {
+        this.vx = 20 * Math.sign(alvo.x - this.x);
+        this.vy = 20 * Math.sign(alvo.y - this.y);
+      }
+    }
+    function persegue2(alvo) {
+      return function () {
+        var dx = alvo.x - this.x;
+        var dy = alvo.y - this.y;
+        var da = Math.sqrt(dx*dx + dy*dy);
+        var adj = 1.5
+        var prod = (dx/da)*Math.cos(this.a + adj) + (dy/da) * Math.sin(this.a + adj);
+        this.va = 2 * (prod-0);
+      }
+    }
+   
+    function persegue3(alvo) {
+        this.x = Math.cos()*alvo.x - this.vx*dt;
+    }
+    function moverlua(alvo){
+      return function(){
+        this.x = this.x + this.vm * dt * stage;
+        if (this.x + 200 <= 0){
+          this.x = canvas.width;
+        }
+      }  
+    }
+    function persegueboss(alvo) {
+      return function () {
+        var dx = alvo.x - this.x;
+        var dy = alvo.y - this.y;
+        var da = Math.sqrt(dx*dx + dy*dy);
+        var adj = 1.5
+        var prod = (dx/da)*Math.cos(this.a + adj) + (dy/da) * Math.sin(this.a + adj);
+        this.va = 2 * (prod-0);
+        this.vm = 50;
+        this.props.spawn -= (1/60);
+        if(this.props.spawn <= 0){
+          this.props.spawn = 1;
+          var novo = new Sprite({
+            x: this.x,
+            y: this.y,
+            h: 30,
+            w: 5,
+            va: 2*Math.random(),
+            vm: 500,
+            color: "limegreen", props:{tipo: "npc"},
+            vida: 1,
+            comportar: persegue2(pc)
+          });
+          cena1.adicionar(novo);
+        }
+      }
+    }
+    function persegueSpawn(alvo) {
+      return function () {
+        var dx = alvo.x - this.x;
+        var dy = alvo.y - this.y;
+        var da = Math.sqrt(dx*dx + dy*dy);
+        var adj = 1.5
+        var prod = (dx/da)*Math.cos(this.a + adj) + (dy/da) * Math.sin(this.a + adj);
+        this.va = 2 * (prod-0);
+        this.props.spawn -= (1/60);
+        if(this.props.spawn <= 0){
+          this.props.spawn = 10;
+          var novo = new Sprite({
+              x: this.x,
+              y: this.y,
+              h: 20,
+              va: 300,
+              vm: 150,
+              color: "lightgreen",
+              props:{tipo: "spin"},
+              comportar: persegue3(alvo)
+            })
+            cena1.adicionar(novo);
+        }
+      }
+    }
+    function persegueSpawn2(alvo) {
+      return function () {
+        var dx = alvo.x - this.x;
+        var dy = alvo.y - this.y;
+        var da = Math.sqrt(dx*dx + dy*dy);
+        var adj = 1.5
+        var prod = (dx/da)*Math.cos(this.a + adj) + (dy/da) * Math.sin(this.a + adj);
+        this.va = 2 * (prod-0);
+        this.props.spawn -= (1/60);
+        if(this.props.spawn <= 0){
+          this.props.spawn = 5;
+          var novo2 = new Sprite({
+              x: canvas.width*Math.random(),
+              y: canvas.height*Math.random(),
+              w: 20,
+              va: -1,
+              vm: 20*stage,
+              color: "white",
+              props:{tipo: "spin"},
+              comportar: persegue3(pc)
+            });
+            cena1.adicionar(novo2);
+        }
+      }
+    }
+    function porTeclasDirecionais(teclas) {
+      return function () {
+        if (teclas.esquerda) { this.va = -2; }
+        if (teclas.direita) { this.va = +2; }
+        if (teclas.esquerda === teclas.direita) { this.va = 0; }
+        if (teclas.cima) { this.vm = -240; }
+        if (teclas.baixo) { this.vm = +240; }
+        if (teclas.cima === teclas.baixo) { this.vm = 0; }
+        if (teclas.espaco && this.cooldown <= 0) {
+          var tiro = new Sprite({
+            x: this.x, y: this.y,
+            a: this.a + 0.1 +- 0.2 * Math.random(), vm: 10+stage*200,
+            w: this.w / 2 + stage, h: this.h / 2 + stage,
+            color: "chartreuse",
+            props:{tipo: "tiro"},
+          });
+          this.scene.adicionar(tiro);
+          this.cooldown = 0.20 - stage/50;
+        }
+      }
+    }
+    addEventListener("keydown", function (e) {
+      switch (e.keyCode) {
+        case 32:
+          teclas.espaco = 1;
+          break;
+        case 37:
+          teclas.esquerda = 1;
+          break;
+        case 39:
+          teclas.direita = 1;
+          break;
+        case 36:
+          teclas.cima = 1;
+          break;
+        case 38:
+          teclas.baixo = 1;
+          break;
+      }
+    })
+    addEventListener("keyup", function (e) {
+      switch (e.keyCode) {
+        case 32:
+          teclas.espaco = 0;
+          break;
+        case 37:
+          teclas.esquerda = 0;
+          break;
+        case 39:
+          teclas.direita = 0;
+          break;
+        case 36:
+          teclas.cima = 0;
+          break;
+        case 38:
+          teclas.baixo = 0;
+          break;
+      }
+    })
+    var dt, anterior = 0;
+    function passo(t) {
+      dt = (t - anterior) / 1000;
+      if(titlecronometer>=0){
+        titlecronometer = titlecronometer-dt;
+      }
+      enemycronometer = enemycronometer-dt;
+      if(stage === 5){
+        ghostcronometer = ghostcronometer-dt;
+      }
+      if(stage === 6){
+        bosstimer = bosstimer-dt;
+      }
+      cena1.passo(dt);
+      anterior = t;
+      requestAnimationFrame(passo);
+    }
+    requestAnimationFrame(passo);
+  </script>
+</body>
+
+</html>
