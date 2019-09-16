@@ -232,7 +232,6 @@ Scene.prototype.stage = function (){
 Scene.prototype.passo = function(dt){
     this.limpar();
     this.default();
-    this.verdados();
     this.stage();
     this.comportar();
     this.moverEstrelas(dt);
@@ -251,6 +250,7 @@ Scene.prototype.passo = function(dt){
     }
     this.desenhaEstrelas();
     this.desenhar();
+    this.verdados();
     this.checaColisao();
     this.checaMorte();
     this.removeSprites();
