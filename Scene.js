@@ -5,7 +5,6 @@ function Scene(params){
         ctx: null,
         w:300,
         h:300,
-        background: undefined,
     }
     Object.assign(this, exemplo, params);
 }
@@ -19,7 +18,6 @@ Scene.prototype.adicionar = function(sprite){
 };
 
 Scene.prototype.desenhar = function(){
-    this.ctx.drawImage(this.background, 0, 0, this.w, this.h);
     for(var i = 0; i<this.sprites.length; i++){
         this.sprites[i].desenhar(this.ctx);
     }
@@ -221,8 +219,18 @@ Scene.prototype.stage = function (){
     }
 };
 
+
+Scene.prototype.default = function (){
+    ctx.fillStyle = "indigo";
+    ctx.lineWidth = 10;
+    ctx.strokeStyle =  "black";
+    ctx.fillRect(0,0, canvas.width,canvas.height);
+    ctx.strokeRect(0,0, canvas.width,canvas.height);
+};
+
 Scene.prototype.passo = function(dt){
     this.limpar();
+    this.default();
     this.stage();
     this.comportar();
     this.moverEstrelas(dt);
