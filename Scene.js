@@ -19,10 +19,10 @@ Scene.prototype.adicionar = function(sprite){
 };
 
 Scene.prototype.desenhar = function(){
-    this.ctx.drawImage(this.background, 0, 0, this.w, this.h);
     for(var i = 0; i<this.sprites.length; i++){
         this.sprites[i].desenhar(this.ctx);
     }
+    this.ctx.drawImage(this.background, 0, 0, this.w, this.h);
 };
 
 Scene.prototype.comportar = function(){
