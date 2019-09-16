@@ -25,11 +25,11 @@
       espaço: 0,
     }
     var vidaabsoluta = 1500;
-    var pontos = 0;
+    var pontos = 1500;
     var stage = 1;
     var boss = 0;
-    var bosslife = 200;
-    var bosstimer = 600;
+    var bosslife = 1;
+    var bosstimer = 10;
     var enemycronometer = 1;
     var ghostcronometer = 30;
     var titlecronometer = 6;
@@ -230,19 +230,37 @@
     var dt, anterior = 0;
     function passo(t) {
       dt = (t - anterior) / 1000;
-      if(titlecronometer>=0){
-        titlecronometer = titlecronometer-dt;
+      if(bosslife <=0){ 
+        ctx.fillStyle = "black";
+        ctx.lineWidth = 3;
+        ctx.strokeStyle =  "gold";
+        ctx.font = "100px bold Aldrich";
+        ctx.fillText("YOU WON", 150, 200);
+        ctx.strokeText("YOU WON", 150, 200);
       }
-      enemycronometer = enemycronometer-dt;
-      if(stage === 5){
-        ghostcronometer = ghostcronometer-dt;
+      else
+      if(vidaabsoluta<=0 || bosstimer <=0){
+        ctx.fillStyle = "black";
+        ctx.strokeStyle =  "red";
+        ctx.font = "100px bold Aldrich";
+        ctx.fillText("GAME OVER", 100, 200);
+        ctx.strokeText("GAME OVER", 100, 200);
       }
-      if(stage === 6){
-        bosstimer = bosstimer-dt;
+      else{
+        if(titlecronometer>=0){
+          titlecronometer = titlecronometer-dt;
+        }
+        enemycronometer = enemycronometer-dt;
+        if(stage === 5){
+          ghostcronometer = ghostcronometer-dt;
+        }
+        if(stage === 6){
+          bosstimer = bosstimer-dt;
+        }
+        cena1.passo(dt);
       }
-      cena1.passo(dt);
-      anterior = t;
-      requestAnimationFrame(passo);
+       anterior = t;
+       requestAnimationFrame(passo);
     }
     requestAnimationFrame(passo);
   </script>
