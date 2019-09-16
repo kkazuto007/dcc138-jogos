@@ -202,25 +202,25 @@ Scene.prototype.stage = function (){
         }
         else if(pontos > 100 && pontos <= 200){
             for(var k=0; k < 3; k++){
-                cena1.adicionar(new Sprite({ x: canvas.width, y: 300*Math.random(), w: 30 , h: 50, va: -16, vm: 100, color: "purple", props:{tipo: "shark", spawn: 2}, vida: 10, comportar: persegueSpawn(pc) }));
+                cena1.adicionar(new Sprite({ x: canvas.width, y: 300*Math.random(), w: 30 , h: 50, va: -16, vm: 100, color: "pink", props:{tipo: "shark", spawn: 2}, vida: 10, comportar: persegueSpawn(pc) }));
                 enemycronometer = 5;
                 stage=3;
             }
         }
         else if(pontos > 200 && pontos <= 500){
             for(var k=0; k < 2; k++){
-                cena1.adicionar(new Sprite({ x: canvas.width, y: canvas.height*Math.random(), w: 15, va: 2*Math.random(), vm: 400, color: "teal", props:{tipo: "npc"}, vida: 3, comportar: persegue2(pc) }));
-                cena1.adicionar(new Sprite({ x: canvas.width, y: canvas.height*Math.random(), h: 20, va: -16, vm: 75, color: "navy", props:{tipo: "npc"}, vida:2, comportar: persegue2(pc) }));
+                cena1.adicionar(new Sprite({ x: canvas.width, y: canvas.height*Math.random(), w: 15, va: 2*Math.random(), vm: 400, color: "mediumspringgreen", props:{tipo: "npc"}, vida: 3, comportar: persegue2(pc) }));
+                cena1.adicionar(new Sprite({ x: canvas.width, y: canvas.height*Math.random(), h: 20, va: -16, vm: 75, color: "teal", props:{tipo: "npc"}, vida:2, comportar: persegue2(pc) }));
                 enemycronometer = 1;
                 stage=4;
             }
         }
         else if(pontos > 500 && pontos <= 1000){
             for(var k=0; k < 4; k++){
-                cena1.adicionar(new Sprite({ x: canvas.width, y: canvas.height*Math.random(), w: 15, va: 2*Math.random(), vm: 500, color: "turquoise", props:{tipo: "npc"}, vida:3, comportar: persegue2(pc) }));
-                cena1.adicionar(new Sprite({ x: canvas.width, y: canvas.height*Math.random(), h: 20, va: -16, vm: 150, color: "midnightblue", props:{tipo: "npc"}, vida: 4, comportar: persegue2(pc) }));
-                cena1.adicionar(new Sprite({ x: canvas.width, y: 300*Math.random(), w: 30 , h: 50, va: -16, vm: 200, color: "pink", props:{tipo: "shark", spawn: 2}, vida: 15, comportar: persegueSpawn(pc) }));
-                enemycronometer = 20;
+                cena1.adicionar(new Sprite({ x: canvas.width, y: canvas.height*Math.random(), w: 15, va: 2*Math.random(), vm: 500, color: "springreen", props:{tipo: "npc"}, vida:3, comportar: persegue2(pc) }));
+                cena1.adicionar(new Sprite({ x: canvas.width, y: canvas.height*Math.random(), h: 20, va: -16, vm: 150, color: "purple", props:{tipo: "npc"}, vida: 4, comportar: persegue2(pc) }));
+                cena1.adicionar(new Sprite({ x: canvas.width, y: 300*Math.random(), w: 30 , h: 50, va: -16, vm: 300, color: "crimson", props:{tipo: "shark", spawn: 2}, vida: 20, comportar: persegueSpawn(pc) }));
+                enemycronometer = 15;
                 stage=5;
             }
         }
