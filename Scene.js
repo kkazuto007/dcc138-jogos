@@ -167,21 +167,6 @@ Scene.prototype.verdados = function (){
         ctx.fillText("Moon Invaders", 50, 300);
         ctx.strokeText("Moon Invaders", 50, 300);
     }
-    if(vidaabsoluta<=0 || bosstimer <=0){
-        ctx.fillStyle = "black";
-        ctx.strokeStyle =  "red";
-        ctx.font = "100px bold Aldrich";
-        ctx.fillText("GAME OVER", 100, 200);
-        ctx.strokeText("GAME OVER", 100, 200);
-    }
-    if(bosslife <=0){ 
-        ctx.fillStyle = "black";
-        ctx.lineWidth = 3;
-        ctx.strokeStyle =  "gold";
-        ctx.font = "100px bold Aldrich";
-        ctx.fillText("YOU WON", 150, 200);
-        ctx.strokeText("YOU WON", 150, 200);
-    }
 }
 
 Scene.prototype.stage = function (){
