@@ -25,7 +25,7 @@
       espaço: 0,
     }
     var vidaabsoluta = 1000;
-    var pontos = 0;
+    var pontos = 1000;
     var stage = 1;
     var boss = 0;
     var bosslife = 200;
@@ -173,8 +173,8 @@
         if (teclas.esquerda) { this.va = -2; }
         if (teclas.direita) { this.va = +2; }
         if (teclas.esquerda === teclas.direita) { this.va = 0; }
-        if (teclas.cima) { this.vm = -240; }
-        if (teclas.baixo) { this.vm = +240; }
+        if (teclas.cima) { this.vm = 240; }
+        if (teclas.baixo) { this.vm = -240; }
         if (teclas.cima === teclas.baixo) { this.vm = 0; }
         if (teclas.espaco && this.cooldown <= 0) {
           var tiro = new Sprite({
@@ -200,10 +200,10 @@
         case 39:
           teclas.direita = 1;
           break;
-        case 36:
+        case 38:
           teclas.cima = 1;
           break;
-        case 38:
+        case 40:
           teclas.baixo = 1;
           break;
       }
@@ -219,10 +219,10 @@
         case 39:
           teclas.direita = 0;
           break;
-        case 36:
+        case 38:
           teclas.cima = 0;
           break;
-        case 38:
+        case 40:
           teclas.baixo = 0;
           break;
       }
