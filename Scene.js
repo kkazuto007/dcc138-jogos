@@ -32,7 +32,7 @@ Scene.prototype.comportar = function(){
 };
 
 Scene.prototype.mover = function(dt){
-    for(var i = 0; i< this.sprites.length; i++){
+    for(var i = 0; i < this.sprites.length; i++){
          this.sprites[i].mover(dt);
     }
 };
@@ -148,17 +148,17 @@ Scene.prototype.verdados = function (){
     ctx.strokeText(pontos, 110,60);
     ctx.fillText("Stage:",660,30);
     ctx.strokeText("Stage:",660,30);
-    ctx.fillText(stage,760,30)
-    ctx.strokeText(stage,760,30)
+    ctx.fillText(stage,750,30)
+    ctx.strokeText(stage,750,30)
     if(boss === 1){
         ctx.fillText("Boss: ",670,90);
         ctx.strokeText("Boss: ",670,90);
-        ctx.fillText(bosslife, 760,90);
-        ctx.strokeText(bosslife, 760,90);
+        ctx.fillText(bosslife, 750,90);
+        ctx.strokeText(bosslife, 750,90);
         ctx.fillText("Time Left: ",610,60);
         ctx.strokeText("Time Left: ",610,60);
-        ctx.fillText(bosstimer, 760,60);
-        ctx.strokeText(bosstimer, 760,60);
+        ctx.fillText(bosstimer, 750,60);
+        ctx.strokeText(bosstimer, 750,60);
     }
     if(titlecronometer>=0){
         ctx.fillStyle = "black";
@@ -250,8 +250,20 @@ Scene.prototype.passo = function(dt){
     this.comportar();
     this.moverEstrelas(dt);
     this.mover(dt);
-    this.desenhar();
+    if(this.sprites[1].x < 20 ){
+        this.sprites[1].x = 20;
+    }
+    if(this.sprites[1].y > 580 ){
+        this.sprites[1].y = 580;
+    }
+    if(this.sprites[1].x > 780 ){
+        this.sprites[1].x = 780;
+    }
+    if(this.sprites[1].y < 20 ){
+        this.sprites[1].y = 20;
+    }
     this.desenhaEstrelas();
+    this.desenhar();
     this.checaColisao();
     this.checaMorte();
     this.removeSprites();
