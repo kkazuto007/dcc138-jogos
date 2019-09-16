@@ -102,6 +102,18 @@
             vida: 1,
             comportar: persegue2(pc)
           });
+          var novo2 = new Sprite({
+            x: this.x,
+            y: this.y,
+            h: 10,
+            w: 30,
+            va: 2*Math.random(),
+            vm: 600,
+            color: "limegreen", props:{tipo: "spin"},
+            vida: 1,
+            comportar: persegue3(pc)
+          });
+          cena1.adicionar(novo2);
           cena1.adicionar(novo);
         }
       }
