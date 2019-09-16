@@ -144,28 +144,28 @@ Scene.prototype.verdados = function (){
     ctx.strokeText(vidaabsoluta, 90,30);
     ctx.fillText("Score:",10,60);
     ctx.strokeText("Score:",10,60);
-    ctx.fillText(pontos, 100,60);
-    ctx.strokeText(pontos, 100,60);
+    ctx.fillText(pontos, 110,60);
+    ctx.strokeText(pontos, 110,60);
     ctx.fillText("Stage:",660,30);
     ctx.strokeText("Stage:",660,30);
-    ctx.fillText(stage,750,30)
-    ctx.strokeText(stage,750,30)
+    ctx.fillText(stage,760,30)
+    ctx.strokeText(stage,760,30)
     if(boss === 1){
         ctx.fillText("Boss: ",670,90);
         ctx.strokeText("Boss: ",670,90);
-        ctx.fillText(bosslife, 750,90);
-        ctx.strokeText(bosslife, 750,90);
+        ctx.fillText(bosslife, 760,90);
+        ctx.strokeText(bosslife, 760,90);
         ctx.fillText("Time Left: ",610,60);
         ctx.strokeText("Time Left: ",610,60);
-        ctx.fillText(bosstimer, 750,60);
-        ctx.strokeText(bosstimer, 750,60);
+        ctx.fillText(bosstimer, 760,60);
+        ctx.strokeText(bosstimer, 760,60);
     }
     if(titlecronometer>=0){
         ctx.fillStyle = "black";
         ctx.strokeStyle =  "red";
         ctx.font = "100px bold New Courier";
-        ctx.fillText("Moon Invaders", 100, 300);
-        ctx.strokeText("Moon Invaders", 100, 300);
+        ctx.fillText("Moon Invaders", 50, 300);
+        ctx.strokeText("Moon Invaders", 50, 300);
     }
     if(vidaabsoluta<=0 || bosstimer <=0){
         ctx.fillStyle = "black";
