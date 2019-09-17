@@ -34,7 +34,7 @@
     var ghostcronometer = 30;
     var titlecronometer = 6;
     var fundo = new Image;
-    fundo.src = "./fundo.jpg"
+    fundo.src = "fundo.jpg"
 
     var cena1 = new Scene({ ctx: ctx, w: canvas.width, h: canvas.height, background: fundo});
     var pc = new Sprite({ x: canvas.width/2, y: 3*canvas.height/4, h: 20, w: 20, vida: 300, comportar: porTeclasDirecionais(teclas), props:{tipo: "pc"} });
