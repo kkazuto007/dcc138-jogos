@@ -33,8 +33,10 @@
     var enemycronometer = 1;
     var ghostcronometer = 30;
     var titlecronometer = 6;
+    var fundo = new Image;
+    fundo.src = "./fundo.jpg"
 
-    var cena1 = new Scene({ ctx: ctx, w: canvas.width, h: canvas.height});
+    var cena1 = new Scene({ ctx: ctx, w: canvas.width, h: canvas.height, background: fundo});
     var pc = new Sprite({ x: canvas.width/2, y: 3*canvas.height/4, h: 20, w: 20, vida: 300, comportar: porTeclasDirecionais(teclas), props:{tipo: "pc"} });
     var moon = new Sprite({ x: 600, y: canvas.height/8, props: {tipo: "moon"}, color: "gold", vm: -20, vida: 300, comportar: moverlua()});
     cena1.adicionar(moon);
