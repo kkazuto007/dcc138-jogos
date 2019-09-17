@@ -5,6 +5,7 @@ function Scene(params){
         ctx: null,
         w:300,
         h:300,
+        background: undefined,
     }
     Object.assign(this, exemplo, params);
 }
@@ -231,6 +232,7 @@ Scene.prototype.default = function (){
 Scene.prototype.passo = function(dt){
     this.limpar();
     this.default();
+    this.ctx.drawImage(this.background, 0, 0, this.w, this.h);
     this.stage();
     this.comportar();
     this.moverEstrelas(dt);
