@@ -8,11 +8,34 @@
   <title>Moon Invaders</title>
   <script src="Sprite.js"></script>
   <script src="Scene.js"></script>
+  <script src="AssetsManager.js"></script>
+  <script src="Explosion.js"></script>
 </head>
 
 <body>
   <canvas></canvas>
   <script>
+   
+    var assetsMng = new AssetsManager();
+    assetsMng.loadImage("player","./assets/player_ship.png");
+    assetsMng.loadImage("moon","./assets/Planet.png");
+    assetsMng.loadImage("explosion","./assets/Explosion.png");
+    assetsMng.loadAudio("explosion","./assets/Explosion.mp3");
+
+    assetsMng.loadImage("penguin","./assets/penguin.png");
+    assetsMng.loadImage("worm","./assets/worm.png");
+    assetsMng.loadImage("star","./assets/star.png");
+    assetsMng.loadImage("bomb","./assets/bomb.png");
+    assetsMng.loadImage("shark","./assets/shark.png");
+    assetsMng.loadImage("ball","./assets/ball.png");
+    assetsMng.loadImage("score","./assets/score.png");
+    console.log(assetsMng);
+
+    var fundo = new Image();
+    fundo.src = "./assets/darknebula.jpg" 
+    var imgLua = new Image();
+    imgLua.src = "./assets/Planet.png"
+   
     var canvas = document.querySelector("canvas");
     canvas.width = 800;
     canvas.height = 600;
@@ -25,37 +48,42 @@
       espaço: 0,
     }
     var vidaabsoluta = 1500;
-    var pontos = 0;
+    var pontos = 150;
     var stage = 1;
     var boss = 0;
-    var bosslife = 150;
+    var bosslife = 200;
     var bosstimer = 300;
     var enemycronometer = 1;
     var ghostcronometer = 30;
     var titlecronometer = 6;
-    var fundo = new Image;
-    fundo.src = "fundo.jpg"
 
-    var cena1 = new Scene({ ctx: ctx, w: canvas.width, h: canvas.height, background: fundo});
-    var pc = new Sprite({ x: canvas.width/2, y: 3*canvas.height/4, h: 20, w: 20, vida: 300, comportar: porTeclasDirecionais(teclas), props:{tipo: "pc"} });
-    var moon = new Sprite({ x: 600, y: canvas.height/8, props: {tipo: "moon"}, color: "gold", vm: -20, vida: 300, comportar: moverlua()});
+
+    var cena1 = new Scene({ ctx: ctx, w: canvas.width, h: canvas.height, assets:assetsMng, background:fundo });
+
+    var pc = new Sprite({ x: canvas.width/2, y: 3*canvas.height/4, h: 32, w: 32, vida: 300, comportar: porTeclasDirecionais(teclas), props:{tipo: "pc"} });
+    var moon = new Sprite({ x: 600, y: canvas.height/8, h:96, w:96, props: {tipo: "moon"}, color: "gold", vm: -20, vida: 300, comportar: moverlua()});
+    var teste = new Sprite({ x: 500, y: 300, props:{tipo: "shark"}, h: 48, w: 16, vm: 50 ,comportar: moverworm() });
+               
     cena1.adicionar(moon);
     cena1.adicionar(pc);
-    for(var k =0; k < 500; k++){
-        var tam = 4* Math.random();
-        cena1.adicionar(new Sprite({
-            y: canvas.height * Math.random(),
-            x: canvas.width,
-            h: tam,
-            w: tam,
-            vs: -200 - 300 * Math.random(),
-            color: "gold", props:{tipo:"star"}
-        }));
+    cena1.adicionar(teste);
+   
+    for(var k =0; k < 300; k++){
+      var tam = 4* Math.random();
+      cena1.adicionar(new Sprite({
+        y: canvas.height * Math.random(),
+        x: canvas.width + 30,
+        h: tam,
+        w: tam,
+        vs: -200 - 300 * Math.random(),
+        color: "gold", props:{tipo:"star"}
+      }));
     }
-    function persegue(alvo) {
+   
+
+    function moverworm() {
       return function () {
-        this.vx = 20 * Math.sign(alvo.x - this.x);
-        this.vy = 20 * Math.sign(alvo.y - this.y);
+        this.x = this.x - this.vm*dt;
       }
     }
     function persegue2(alvo) {
@@ -89,7 +117,7 @@
         var prod = (dx/da)*Math.cos(this.a + adj) + (dy/da) * Math.sin(this.a + adj);
         this.va = 2 * (prod-0);
         this.vm = 50;
-        this.props.spawn -= (1/60);
+        this.props.spawn -= (1/30);
         if(this.props.spawn <= 0){
           this.props.spawn = 1;
           var novo = new Sprite({
@@ -99,7 +127,7 @@
             w: 5,
             va: 2*Math.random(),
             vm: 500,
-            color: "limegreen", props:{tipo: "npc"},
+            color: "limegreen", props:{tipo: "worm"},
             vida: 1,
             comportar: persegue2(pc)
           });
@@ -134,7 +162,7 @@
               x: this.x,
               y: this.y,
               h: 20,
-              va: 300,
+              va: Math.PI/2,
               vm: 150,
               color: "lightgreen",
               props:{tipo: "spin"},
@@ -229,42 +257,46 @@
       }
     })
     var dt, anterior = 0;
+
     function passo(t) {
       dt = (t - anterior) / 1000;
-      if(bosslife <=0){ 
-        ctx.fillStyle = "black";
-        ctx.lineWidth = 3;
-        ctx.strokeStyle =  "gold";
-        ctx.font = "100px bold Aldrich";
-        ctx.fillText("YOU WON", 150, 200);
-        ctx.strokeText("YOU WON", 150, 200);
-      }
-      else
-      if(vidaabsoluta<=0 || bosstimer <=0){
-        ctx.fillStyle = "black";
-        ctx.strokeStyle =  "red";
-        ctx.font = "100px bold Aldrich";
-        ctx.fillText("GAME OVER", 100, 200);
-        ctx.strokeText("GAME OVER", 100, 200);
-      }
-      else{
-        if(titlecronometer>=0){
-          titlecronometer = titlecronometer-dt;
+      //console.log(assetsMng.aCarregar, assetsMng.carregadas);
+      if(assetsMng.aCarregar <= assetsMng.carregadas){
+        if(bosslife <= 0){
+          ctx.fillStyle = "black";
+          ctx.lineWidth = 3;
+          ctx.strokeStyle =  "gold";
+          ctx.font = "100px bold Aldrich";
+          ctx.fillText("YOU WON", 150, 200);
+          ctx.strokeText("YOU WON", 150, 200);
         }
-        enemycronometer = enemycronometer-dt;
-        if(stage === 5){
-          ghostcronometer = ghostcronometer-dt;
+        else
+        if(vidaabsoluta<=0 || bosstimer <=0){
+          ctx.fillStyle = "black";
+          ctx.strokeStyle =  "red";
+          ctx.font = "100px bold Aldrich";
+          ctx.fillText("GAME OVER", 100, 200);
+          ctx.strokeText("GAME OVER", 100, 200);
         }
-        if(stage === 6){
-          bosstimer = bosstimer-dt;
+        else{
+          if(titlecronometer>=0){
+            titlecronometer = titlecronometer-dt;
+          }
+          enemycronometer = enemycronometer-dt;
+          if(stage === 5){
+            ghostcronometer = ghostcronometer-dt;
+          }
+          if(stage === 6){
+            bosstimer = bosstimer-dt;
+          }
+          cena1.passo(dt);
         }
-        cena1.passo(dt);
+        }
+        anterior = t;
+        requestAnimationFrame(passo);
       }
-       anterior = t;
-       requestAnimationFrame(passo);
-    }
-    requestAnimationFrame(passo);
-  </script>
+      requestAnimationFrame(passo);
+      </script>
 </body>
 
 </html>
